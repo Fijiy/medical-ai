@@ -14,6 +14,7 @@ Work for [Validate PhysioNet channel mapping, signal units, and recording comple
 - `pXX.json`: created only after the corresponding complete recording passes its published SHA-256 check. These inventories contain structural summaries, not signal samples.
 - `GATES.md`: current acceptance-check status; all gates must be assessed before a completion report.
 - [Channel metadata investigation](../../research/physionet-channel-metadata-evidence.md): source evidence and unresolved mapping, units, and processing history.
+- [Manufacturer follow-up](../../research/physionet-manufacturer-output-followup.md): completed search for software output conventions and the precise configuration still needed.
 
 Downloaded participant recordings remain in the Git-ignored `data/physionet/` directory. The archive is `data/physionet/release-1.0.0.zip`; verified recordings are retained under `data/physionet/neuro-stress-resilience-hci/1.0.0/`. Files ending `.partial` are unfinished transfers and must not be used as complete recordings.
 
