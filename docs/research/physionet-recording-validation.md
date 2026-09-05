@@ -8,6 +8,8 @@ Evidence for [Validate PhysioNet channel mapping, signal units, and recording co
 
 The files themselves resolved two important questions: there are two actual row layouts, and the optical streams have a consistent numerical pairing. They also exposed an undocumented extra marker in p11. No authors were contacted.
 
+**Latest data-level follow-up:** [careful waveform inspection](physionet-waveform-metadata-inference.md) now favors the numbered EEG order in 33/35 recordings, rules out simple all-32-channel average referencing and simple 10 Hz repeated-value optical export, and identifies near-flat EEG behavior hidden by startup transients. These strengthen working interpretations without establishing physical optical wiring or units.
+
 ## What was checked
 
 | Measured item | Result |

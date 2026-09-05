@@ -11,6 +11,7 @@ Work for [Validate PhysioNet channel mapping, signal units, and recording comple
 - `recording-summary.csv`: one row per participant, including phase coverage and unresolved eligibility.
 - `optical-consistency.json`: measured numerical row pairings and full-sample residuals, without physical label assignments.
 - `conversion-fingerprint.json`: comparison of all 280 recovered conversion matrices with published coefficients; wavelength/HbO/HbR identities remain conditional and units unassigned.
+- `waveform-diagnostics.json`: hash-backed waveform summaries, candidate EEG geometry scores, optical grouping and update checks. See [data-level inference and limits](../../research/physionet-waveform-metadata-inference.md).
 - `pXX.json`: created only after the corresponding complete recording passes its published SHA-256 check. These inventories contain structural summaries, not signal samples.
 - `GATES.md`: current acceptance-check status; all gates must be assessed before a completion report.
 - [Channel metadata investigation](../../research/physionet-channel-metadata-evidence.md): source evidence and unresolved mapping, units, and processing history.
@@ -30,6 +31,8 @@ python3 scripts/physionet_inventory.py --verify-inventory docs/validation/physio
 python3 scripts/physionet_optical_checks.py
 python3 scripts/physionet_optical_checks.py --verify-existing
 python3 scripts/physionet_conversion_fingerprint.py
+python3 scripts/physionet_waveform_diagnostics.py
+python3 scripts/physionet_waveform_diagnostics.py --verify-existing
 ```
 
 The archive command requires the saved manifest and required small metadata files. To fetch them and scan individual CSVs instead:

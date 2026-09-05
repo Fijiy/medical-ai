@@ -1,8 +1,21 @@
 # Gates: PhysioNet recording validation
 
-OWNS: scripts/physionet_inventory.py, scripts/physionet_optical_checks.py, tests/test_physionet_inventory.py, docs/validation/physionet/**, docs/research/physionet-recording-validation.md
+OWNS: scripts/physionet_inventory.py, scripts/physionet_optical_checks.py, scripts/physionet_waveform_diagnostics.py, tests/test_physionet_inventory.py, docs/validation/physionet/**, docs/research/physionet-recording-validation.md, docs/research/physionet-waveform-metadata-inference.md
 
 Scope: inspect all released paired CSVs, retain integrity and structural evidence, test importer and marker exceptions, and establish metadata or explicitly preserve its blockers on the existing Wayfinder ticket.
+
+September 5 renewed scope: inspect waveform evidence for candidate EEG geometry, reference/scale conventions, optical update behavior and physical identifiability without author contact. Earlier gates certify the original inventory only.
+
+- [x] G6: Waveform diagnostics distinguish synthetic spatial/reference controls and retain hash-backed results for all 35 recordings
+  CHECK: python3 scripts/physionet_waveform_diagnostics.py --verify-existing
+  EXPECT: WAVEFORM EVIDENCE VERIFIED
+  EVIDENCE: automatic-evidence=v1; definition-sha256=83d422b0daf1af699fa43824b8183abf8cc250bf9a2f65ebef75b35930c72565; exit=0; EXPECT=matched; output-sha256=90a478afe68d90be367be7213de0dc6851897c3d17e20db9349ffb725a6370aa; output-bytes=52; shell=/bin/sh; cwd=/Users/kairos/repos/josh/medical-ai; path=6afbb607902d/29 entries
+
+- [x] G7: The report reconciles waveform findings against mapping and unit hypotheses, including alternative explanations and remaining identifiability limits
+  EVIDENCE: New waveform report checked against all 35 saved diagnostics. Independent reviewer reproduced headline figures and synthetic end-to-end controls without an actionable code finding; artifact physionet-waveform-diagnostic-review. Report preserves p01/p03 exceptions, shared-band dependence, optical wiring/units ambiguity, and near-flat quality flags without exclusions.
+
+- [x] G8: Existing issue records the new data-level findings and accurate closure status without author outreach or a new Wayfinder map
+  EVIDENCE: Posted https://github.com/Fijiy/medical-ai/issues/49#issuecomment-5554288172 and reread issue OPEN. No outreach, new map, model, quality policy, or importer label assignment. Data-level investigation completed, full physical validation remains unresolved.
 
 - [x] G1: Importer checks detect malformed, nonfinite, uneven, and truncated data and preserve documented marker exceptions
   CHECK: python3 tests/test_physionet_inventory.py
