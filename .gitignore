@@ -1,0 +1,5 @@
+.DS_Store
+
+# Downloaded participant recordings and Python cache files
+/data/
+__pycache__/

@@ -1,0 +1,220 @@
+{
+  "dataset_version": "1.0.0",
+  "source_base_url": "https://physionet.org/files/neuro-stress-resilience-hci/1.0.0/",
+  "python": "3.9.6 (default, Mar 12 2025, 20:22:46) \n[Clang 17.0.0 (clang-1700.0.13.3)]",
+  "numpy": "2.0.2",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "row_numbering": "one_based",
+  "sample_indexing": "zero_based",
+  "declared_row_layout": [
+    {
+      "rows": [
+        1,
+        1
+      ],
+      "group": "time",
+      "unit": "seconds according to protocol and stored 0.004 grid"
+    },
+    {
+      "rows": [
+        2,
+        17
+      ],
+      "group": "optical_density",
+      "unit": null,
+      "source_detector_pair": null,
+      "wavelength": null
+    },
+    {
+      "rows": [
+        18,
+        33
+      ],
+      "group": "concentration",
+      "unit": null,
+      "source_detector_pair": null,
+      "hemoglobin_species": null
+    },
+    {
+      "rows": [
+        34,
+        65
+      ],
+      "group": "eeg",
+      "unit": null,
+      "csv_to_electrode_mapping": null,
+      "reference": null
+    },
+    {
+      "rows": [
+        66,
+        73
+      ],
+      "group": "eye_tracking_declared_not_evaluated_for_model_use",
+      "unit": null
+    },
+    {
+      "rows": [
+        74,
+        74
+      ],
+      "group": "event_pulses",
+      "unit": "binary marker"
+    }
+  ],
+  "layout_evidence": "https://physionet.org/content/neuro-stress-resilience-hci/1.0.0/#description",
+  "metadata_status": "blocked_unverified_mapping_units_and_processing_history",
+  "time_grid_tolerance_seconds": 1e-09,
+  "time_grid_tolerance_meaning": "floating point comparison only; not a signal-quality or phase-duration threshold",
+  "phase_interval_convention": "start inclusive, next marker exclusive; no invented end for last marked phase",
+  "final_phase_limit": "last sample is observed recording extent, not an experiment-end marker",
+  "participant_eligibility": "not_decided; no quality thresholds chosen",
+  "retained_recordings_directory": "data/physionet/neuro-stress-resilience-hci/1.0.0",
+  "recordings_in_git": false,
+  "observed_row_layouts": [
+    {
+      "participants": "p01\u2013p24 excluding unreleased p14 and p23",
+      "physical_rows": 74,
+      "event_row": 74
+    },
+    {
+      "participants": "p25\u2013p37",
+      "physical_rows": 66,
+      "event_row": 66,
+      "note": "Eight declared eye rows absent; notes document separate eye acquisition. Declared release layout remains74."
+    }
+  ],
+  "empirical_optical_groups": [
+    {
+      "group_id": 1,
+      "optical_density_rows_1based": [
+        2,
+        3
+      ],
+      "concentration_rows_1based": [
+        18,
+        19
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 2,
+      "optical_density_rows_1based": [
+        4,
+        5
+      ],
+      "concentration_rows_1based": [
+        20,
+        21
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 3,
+      "optical_density_rows_1based": [
+        6,
+        7
+      ],
+      "concentration_rows_1based": [
+        22,
+        23
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 4,
+      "optical_density_rows_1based": [
+        8,
+        9
+      ],
+      "concentration_rows_1based": [
+        24,
+        25
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 5,
+      "optical_density_rows_1based": [
+        10,
+        11
+      ],
+      "concentration_rows_1based": [
+        26,
+        27
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 6,
+      "optical_density_rows_1based": [
+        12,
+        13
+      ],
+      "concentration_rows_1based": [
+        28,
+        29
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 7,
+      "optical_density_rows_1based": [
+        14,
+        15
+      ],
+      "concentration_rows_1based": [
+        30,
+        31
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    },
+    {
+      "group_id": 8,
+      "optical_density_rows_1based": [
+        16,
+        17
+      ],
+      "concentration_rows_1based": [
+        32,
+        33
+      ],
+      "source": null,
+      "detector": null,
+      "wavelength_order": null,
+      "hemoglobin_order": null,
+      "physical_units": null
+    }
+  ],
+  "empirical_group_evidence": "optical-consistency.json: numerical dependencies across all35 files; does not establish physical labels",
+  "archive_source_url": "https://physionet.org/content/neuro-stress-resilience-hci/get-zip/1.0.0/",
+  "archive_byte_count": 4979989467
+}
