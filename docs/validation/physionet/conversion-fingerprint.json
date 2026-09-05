@@ -1,0 +1,92 @@
+{
+  "status": "conditional_coefficient_match_not_verified_physical_metadata",
+  "source_evidence_sha256": "d7f44f825d5f8158f272ae678231d2e0ca5ebc708b1bb1f795db61b4fbd3fa56",
+  "script_sha256": "7c016038991eb4d01737ae5dac57e4e574150e38e926f628341d02a4965a14fc",
+  "participant_count": 35,
+  "matrix_count": 280,
+  "reference_matrix": [
+    [
+      1.1596,
+      0.7861
+    ],
+    [
+      0.6096,
+      1.6745
+    ]
+  ],
+  "comparisons": [
+    {
+      "candidate_wavelength_order_nm": [
+        850,
+        760
+      ],
+      "candidate_output_order": [
+        "HbO",
+        "HbR"
+      ],
+      "fitted_scale_range": [
+        13.999999999998801,
+        14.000000000004704
+      ],
+      "relative_matrix_error_range": [
+        3.014367437988685e-16,
+        5.301935042258117e-13
+      ]
+    },
+    {
+      "candidate_wavelength_order_nm": [
+        850,
+        760
+      ],
+      "candidate_output_order": [
+        "HbR",
+        "HbO"
+      ],
+      "fitted_scale_range": [
+        10.530060713349785,
+        10.530060713356248
+      ],
+      "relative_matrix_error_range": [
+        0.6589951432616,
+        0.6589951432617701
+      ]
+    },
+    {
+      "candidate_wavelength_order_nm": [
+        760,
+        850
+      ],
+      "candidate_output_order": [
+        "HbO",
+        "HbR"
+      ],
+      "fitted_scale_range": [
+        11.025300651816318,
+        11.025300651825555
+      ],
+      "relative_matrix_error_range": [
+        0.6162872108107229,
+        0.6162872108111477
+      ]
+    },
+    {
+      "candidate_wavelength_order_nm": [
+        760,
+        850
+      ],
+      "candidate_output_order": [
+        "HbR",
+        "HbO"
+      ],
+      "fitted_scale_range": [
+        13.192742691080694,
+        13.19274269108508
+      ],
+      "relative_matrix_error_range": [
+        0.33466050637178957,
+        0.3346605063720466
+      ]
+    }
+  ],
+  "limitations": "Four orderings of one published coefficient table with a common scale; not an exhaustive identification. No physical pair locations, signal units, path length, baseline, or acquisition history are assigned."
+}

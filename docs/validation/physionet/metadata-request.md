@@ -16,6 +16,8 @@ Could you share the MATLAB/Simulink acquisition and export scripts mentioned on 
 - The meaning of the optical-density and concentration values, including conversion parameters, baseline definition, and any invalid-value codes.
 - Native EEG and fNIRS sampling rates, how the shared stored time grid was produced, and any known synchronization delay. Please also clarify coordinate units and axes if available.
 
+To make the optical question concrete, we found the same conversion in all 35 released paired files. For the first group, row 18 = 0.0817802215 × row 2 − 0.0383920168 × row 3, and row 19 = −0.0297720054 × row 2 + 0.0566332307 × row 3; the other seven groups follow the same pattern. Its inverse is 14 × [[1.1596, 0.7861], [0.6096, 1.6745]], matching published coefficients for 850/760 nm inputs and HbO/HbR outputs. Can you confirm those identities, the meaning of the factor 14 and the actual saved input/output units, and which transmitter/receiver each group represents? We have retained these as conditional interpretations pending confirmation.
+
 We have read the participant marker notes. p11 has six pulses at 248.848, 325.028, 688.160, 1044.704, 1404.708, and 1769.068 seconds, but no accompanying correction note. Which five identify the task starts? For p16, the note says recording stopped after 24 minutes, but the published time row ends at 1,260.652 seconds. Is there an explanation or corrected recording?
 
 We want to avoid assigning unsupported sensor locations or units. Any original configuration files or clarification would be very helpful.

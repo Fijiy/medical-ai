@@ -10,6 +10,7 @@ Work for [Validate PhysioNet channel mapping, signal units, and recording comple
 - `provenance.json`: source version, environment, declared row groups, unknown fields, and indexing conventions.
 - `recording-summary.csv`: one row per participant, including phase coverage and unresolved eligibility.
 - `optical-consistency.json`: measured numerical row pairings and full-sample residuals, without physical label assignments.
+- `conversion-fingerprint.json`: comparison of all 280 recovered conversion matrices with published coefficients; wavelength/HbO/HbR identities remain conditional and units unassigned.
 - `pXX.json`: created only after the corresponding complete recording passes its published SHA-256 check. These inventories contain structural summaries, not signal samples.
 - `GATES.md`: current acceptance-check status; all gates must be assessed before a completion report.
 - [Channel metadata investigation](../../research/physionet-channel-metadata-evidence.md): source evidence and unresolved mapping, units, and processing history.
@@ -27,6 +28,7 @@ python3 scripts/physionet_inventory.py --archive data/physionet/release-1.0.0.zi
 python3 scripts/physionet_inventory.py --verify-inventory docs/validation/physionet
 python3 scripts/physionet_optical_checks.py
 python3 scripts/physionet_optical_checks.py --verify-existing
+python3 scripts/physionet_conversion_fingerprint.py
 ```
 
 The archive command requires the saved manifest and required small metadata files. To fetch them and scan individual CSVs instead:

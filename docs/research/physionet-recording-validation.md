@@ -100,7 +100,42 @@ The saved evidence retains coefficients, offsets, design ranks, full-sample resi
 
 **What this resolves:** empirical grouping of input and derived optical rows is strongly supported across the entire release. Counting the two derived outputs as unrelated spatial measurements would ignore their shared numerical inputs.
 
-**What it does not resolve:** the physical source and detector for each group, wavelength order, which output is HbO versus HbR, physical units, baseline definition, or conversion parameters. A fitted numerical equation cannot supply those labels. These groups may support a later explicitly anonymous-row experiment, but are not yet verified named sensor locations or a calibrated physical sensor budget.
+**What the equations alone do not resolve:** the physical source and detector for each group, wavelength order, which output is HbO versus HbR, physical units, baseline definition, or conversion parameters. Comparing their coefficients with an external physical model supplies the additional conditional evidence below. These groups are not yet verified named sensor locations or a calibrated physical sensor budget.
+
+## Follow-up: a numerical fingerprint for optical signal identities
+
+Checked September 5, 2026. The conversion numbers provide more information than grouping alone. Inverting each two-input conversion gives the following matrix, consistently across all **280 groups (35 people × 8 groups)**:
+
+```text
+optical inputs = B × concentration outputs, apart from fitted offsets
+B ≈ [[16.2344, 11.0054],
+     [ 8.5344, 23.4430]]
+  = 14 × [[1.1596, 0.7861],
+          [0.6096, 1.6745]]
+```
+
+The four coefficients in the smaller matrix appear in a published modified Beer–Lambert conversion: the rows correspond to 850 then 760 nm light, and the columns to oxygenated then deoxygenated hemoglobin (HbO and HbR). These coefficients describe how strongly the two forms of hemoglobin absorb each wavelength. This is an external coefficient table, not this release's acquisition configuration. [Janani and Sasikala, *Classification of fNIRS Signals for Decoding Right- and Left-Arm Movement Execution Using SVM for BCI Applications*, Section 2.2](https://www.researchgate.net/publication/324157869_Classification_of_fNIRS_Signals_for_Decoding_Right-_and_Left-Arm_Movement_Execution_Using_SVM_for_BCI_Applications).
+
+**Inference:** assuming that table and one shared positive conversion scale, the data strongly support this order:
+
+| CSV rows, one-based | Conditional identity |
+| --- | --- |
+| 2, 4, 6, 8, 10, 12, 14, 16 | 850 nm optical inputs |
+| 3, 5, 7, 9, 11, 13, 15, 17 | 760 nm optical inputs |
+| 18, 20, 22, 24, 26, 28, 30, 32 | HbO outputs |
+| 19, 21, 23, 25, 27, 29, 31, 33 | HbR outputs |
+
+We tested all four wavelength/output order combinations with a separately fitted common scale for each group. The matching order's maximum relative matrix error was **5.31 × 10⁻¹³**, with scale from 13.9999999999988 to 14.000000000004704. Each alternative had relative error above 0.33. This error is the size of the matrix discrepancy divided by the size of the recovered matrix; it is not physiological accuracy or a probability that the labels are correct. The largest absolute discrepancy from `14 × reference` was 1.91 × 10⁻¹¹.
+
+This is a strong numerical fingerprint, not proof of which acquisition software produced it. The search tests four orderings of one published table; it does not cover arbitrary coefficients, export scaling, or software mistakes. The factor **14** is established numerically, but cannot be split uniquely into source–detector distance, light-path factor, optical encoding, and concentration unit. For example, multiplying both the optical and concentration numerical scales by 1,000 preserves exactly the same conversion matrix while changing their interpretation. A matching matrix therefore cannot distinguish the original unit conventions. Nor does it identify the source and detector attached to each of the eight groups.
+
+The [runnable fingerprint check](../../scripts/physionet_conversion_fingerprint.py) validates the existing evidence and compares all 280 matrices; it does not reread or download raw recordings. It saves [the four ordering comparisons and input/script checksums](../validation/physionet/conversion-fingerprint.json). Run from the repository root:
+
+```sh
+python3 scripts/physionet_conversion_fingerprint.py
+```
+
+The earlier pairing evidence remains unchanged. The new wavelength/HbO/HbR labels are explicitly **conditional**, not silently applied as verified importer metadata. Physical locations, units, reference and recording-specific timing remain open requirements of the ticket.
 
 ## Remaining metadata and safe next work
 

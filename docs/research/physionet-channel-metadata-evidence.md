@@ -4,7 +4,7 @@ Checked September 4, 2026 (America/Los_Angeles; September 5 UTC), for [Validate 
 
 ## Follow-up from complete recording inspection
 
-The [full recording validation report](physionet-recording-validation.md) adds evidence obtained after this source investigation: p25–p37 have 66 rather than 74 rows, and all 35 files support consistent empirical optical row pairings. Physical locations, wavelength/HbO/HbR labels and units remain unresolved. Read that report for the current file findings; this document records the source-document investigation.
+The [full recording validation report](physionet-recording-validation.md) adds evidence obtained after this source investigation: p25–p37 have 66 rather than 74 rows, and all 35 files support consistent empirical optical row pairings. Its September 5 follow-up also matches the recovered conversion matrix to published coefficients, strongly supporting **conditional** 850/760 nm and HbO/HbR ordering. Physical locations and units remain unresolved; the conditional labels do not establish acquisition provenance. Read that report for the current file findings; this document records the earlier source-document investigation.
 
 ## Finding
 
