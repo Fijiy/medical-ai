@@ -51,3 +51,11 @@ Recover the **recording-specific acquisition/export model and configuration**, w
 A contemporaneous saved model, channel configuration, and matching driver documentation could resolve these together. Generic product specifications cannot substitute for that evidence. No outreach was performed.
 
 Until then, preserve any validated numerical pair/order inference as **conditional**, not a verified anatomical map or unit declaration. Structural completeness checks and analyses using anonymous channel indices and relative, within-recording variation can proceed within their own limits. Defer physical localization, absolute concentration claims, microvolt threshold checks, and EEG–optical delay claims that depend on the missing metadata.
+
+## September 10 follow-up: downstream Arduino paper
+
+**Limited support for assumed µV; no support for EEG row locations.** Baltzis et al. (2026), *An Arduino-Based, Portable Prototype…*, cites this release’s `p01` directory in reference 25. Section 3 describes software testing using public recordings, including two recordings from a different PhysioNet dataset. Table 3 reports band power in µV² (squared microvolts). This is downstream reporting, not original acquisition metadata. [Article, Section 3 and references 24–26](https://pmc.ncbi.nlm.nih.gov/articles/PMC13259060/)
+
+Inspected Figure 22 shows a 10–15-second window and µV² power labels, but no channel, CSV filename, import formula, or conversion factor. The article provides no reproducible CSV-scaling procedure or linked analysis code/supplement. Its prototype’s Fp2/O2 and Fp2/Fp8 placements (Section 2.2, as printed) cannot be transferred to the release’s rows. [Article and Figure 22](https://pmc.ncbi.nlm.nih.gov/articles/PMC13259060/#sensors-26-03410-f022)
+
+The paper describes public-recording reuse; it does not establish a synthetic replay, nor prove that CSV values were imported unchanged. **Recommendation:** cite it only as weak precedent for an explicitly assumed µV convention. It cannot validate a numeric scale factor or resolve conflicting electrode lists. No optical-unit evidence was added. No recording download or outreach occurred.

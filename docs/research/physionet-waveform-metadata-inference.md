@@ -74,6 +74,27 @@ The numbered EEG order and optical conversion order are now evidence-backed **wo
 
 The original GitHub issue remains open because its full physical-mapping and unit requirements are not met. The data investigation and diagnostic checks are complete. An independent review reproduced the headline figures and tested the diagnostic pipeline with known synthetic signals; no actionable correctness or provenance defect was found. No outreach is needed to preserve or use these findings within their stated limits.
 
+## September 10: paper-supported working assumptions
+
+The user asked whether reasonable assumptions could let the project proceed without email. **Use µV (microvolts) as the working EEG unit and the numbered EEG order above as the working row interpretation.** Label both as assumed/inferred in analyses. This is an explicit analysis convention, not newly verified acquisition metadata; the inventory's verified-unit and verified-mapping fields remain unknown.
+
+The distinction matters: the electrode positions themselves are published. What we inferred is their connection to CSV rows. The [PhysioNet dataset article](https://physionet.org/content/neuro-stress-resilience-hci/1.0.0/#description) supplies the 32 numbered electrode names and coordinates, places the eight optical channels over the prefrontal region (forehead), and identifies AFz as ground. It does not declare the saved voltage/concentration units or identify the EEG reference. Ground and reference are different electrical roles; AFz must not be relabeled as the reference.
+
+| Quantity | Working convention | Evidence and scope |
+| --- | --- | --- |
+| EEG amplitude | Treat one saved unit as 1 µV; label plots “EEG (assumed µV)” | An original study using the g.Nautilus EEG–fNIRS device family explicitly reports EEG measurements in microvolts. This supports the convention, but is a different experiment. [Consumer-preference study](https://www.researchgate.net/publication/356829617_Using_Concurrent_fNIRS_and_EEG_Measurements_to_Study_Consumer%27s_Preference). |
+| EEG positions | Numbered list above, assigned provisionally to CSV rows 34–65 | Published numbered metadata plus the 33/35 waveform comparison. Use “inferred” for row labels; the comparison does not prove every participant's wiring. |
+| Optical-density inputs | Dimensionless OD if the saved values are unscaled OD | The release calls these rows optical density. The missing export scale still permits milli-OD. [Manufacturer's equation convention](https://artinis.com/theory-of-nirs). |
+| Derived optical concentrations | Retain stored units for primary exploratory plots | Under unscaled OD, the matched coefficients in mM⁻¹·cm⁻¹ and an assumed effective path length of 14 cm imply mM; scaled milli-OD instead implies µM using the identical numerical matrix. Neither branch is confirmed. Do not silently select µM. |
+
+With the EEG assumption, software requiring volts would receive saved values multiplied by `1e-6`; variance or power expressed in volts squared would use `1e-12`. These are unit conversions under the assumption, not an implemented importer change. Absolute amplitude thresholds still need a separate justified quality decision; the µV assumption alone does not validate them.
+
+The paper check also rules out two tempting shortcuts. Roy and Nuamah's [2025 stress-resilience study](https://journals.sagepub.com/doi/full/10.1177/10711813251364795) says the physiological recordings were collected but not reported, so it supplies no missing EEG/fNIRS scale. Its task-performance abbreviation “OD” means overall deviation, not optical density. The release's cited [2024 working-memory graph paper](https://www.sciencedirect.com/science/article/pii/S1389041724000329) uses a different 26-person, 28-channel dataset; its settings cannot establish this release's settings.
+
+A newer [Arduino prototype paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC13259060/) cites this exact release's p01 directory and reports band power in µV². It is weak additional precedent for the EEG convention, since it provides no reproducible import scaling or selected CSV row. Its prototype electrode placements are not this dataset's electrode map. See the [bounded paper inspection](physionet-manufacturer-output-followup.md#september-10-follow-up-downstream-arduino-paper).
+
+This permits clearly labeled exploratory EEG interpretation without email. It does not resolve optical source–detector wiring, establish anatomical conclusions, or certify absolute physiological amplitudes. The original validation ticket remains open under its full requirements.
+
 ## Reproduce
 
 ```sh
