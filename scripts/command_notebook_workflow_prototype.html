@@ -2,103 +2,108 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Command + notebook workflow — throwaway prototype</title>
+<title>Your study workflow — interactive prototype</title>
 <style>
-  :root { font: 16px/1.5 system-ui, sans-serif; color: #172d3b; background: #f4f7f8; }
-  * { box-sizing: border-box; } body { margin: 0; } main { max-width: 1140px; margin: auto; padding: 28px 20px 64px; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 10px 0; } h2 { font-size: 1.2rem; margin-top: 0; } h3 { font-size: 1rem; }
-  p { margin: 8px 0 14px; } a { color: #006b68; } .muted, small { color: #526673; } .badge { font-size: .8rem; font-weight: 700; letter-spacing: .06em; color: #006b68; }
-  section, details.panel { background: white; border: 1px solid #d1dee3; border-radius: 10px; padding: 20px; margin-top: 18px; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .grid > * { min-width: 0; }
-  .fields { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; } label { display: block; font-size: .9rem; font-weight: 600; }
-  input, select { display: block; width: 100%; padding: 9px; margin-top: 4px; border: 1px solid #8da5ad; border-radius: 5px; font: inherit; background: white; color: inherit; }
-  button { font: inherit; padding: 8px 12px; border-radius: 5px; background: white; border: 1px solid #829fa8; color: #164c53; cursor: pointer; }
-  button:hover { background: #eef6f5; } button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #00857c; outline-offset: 3px; }
-  button[aria-selected="true"], .primary { background: #006b68; color: white; border-color: #006b68; } button:disabled { opacity: .5; cursor: default; }
-  .buttons, .tabs { display: flex; gap: 8px; flex-wrap: wrap; } .tabs { margin-bottom: 12px; }
-  dl { display: grid; grid-template-columns: 150px 1fr; margin: 0; gap: 6px 14px; } dt { color: #526673; } dd { margin: 0; overflow-wrap: anywhere; }
-  .notice { border-left: 4px solid #00857c; background: #edf7f5; padding: 12px; margin-top: 16px; } .notice.error { border-color: #9d4a17; background: #fff4eb; }
-  pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f2f5f7; padding: 12px; border-radius: 5px; font-size: .82rem; } code { font-family: ui-monospace, monospace; }
-  .cell { border-top: 1px solid #d9e2e5; padding: 14px 0; } .cell:last-child { padding-bottom: 0; }
-  table { width: 100%; border-collapse: collapse; font-size: .9rem; } th, td { text-align: left; padding: 9px 6px; border-bottom: 1px solid #d9e2e5; vertical-align: top; }
-  caption { text-align: left; margin-bottom: 8px; font-weight: 600; } .plot { border: 1px dashed #a9bbc2; padding: 12px; margin-top: 12px; }
-  .plot td, .plot th { text-align: center; } summary { cursor: pointer; font-weight: 600; } .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  @media (max-width: 780px) { .grid, .fields { grid-template-columns: 1fr; } main { padding: 18px 12px 40px; } dl { grid-template-columns: 120px 1fr; } }
+  :root { font: 16px/1.5 system-ui, sans-serif; color: #193743; background: #f5f8f8; }
+  * { box-sizing: border-box; } [hidden] { display: none !important; } body { margin: 0; }
+  main { width: min(880px, 100%); margin: auto; padding: 26px 24px 40px; }
+  header { margin-bottom: 20px; } .topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .badge, .eyebrow { color: #38656b; font-size: .78rem; font-weight: 700; letter-spacing: .06em; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2rem); line-height: 1.2; margin: 12px 0 8px; }
+  h2 { font-size: 1.4rem; line-height: 1.25; margin: 4px 0 10px; } h3 { font-size: 1rem; margin: 16px 0 6px; }
+  p { margin: 8px 0 12px; } small, .muted { color: #516a73; } a { color: #006c66; }
+  button, input, select { font: inherit; } button, select { cursor: pointer; }
+  button { border: 1px solid #8fa8ad; color: #214d55; background: white; border-radius: 7px; padding: 9px 14px; }
+  button:hover { background: #edf6f4; } button:disabled { opacity: .5; cursor: default; }
+  .primary { background: #006c66; color: white; border-color: #006c66; } .primary:hover { background: #005952; }
+  button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #008e80; outline-offset: 3px; }
+  .step-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+  .step-nav button { text-align: left; padding: 10px 12px; } .step-nav strong, .step-nav small { display: block; }
+  .step-nav [aria-selected="true"] { border: 2px solid #006c66; background: #eaf5f1; padding: 9px 11px; }
+  .card { background: white; border: 1px solid #d5e1e3; border-radius: 12px; padding: 22px; }
+  .preview { background: #f2f6f7; border-radius: 8px; padding: 16px; margin: 16px 0; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .tiles.three { grid-template-columns: repeat(3, 1fr); }
+  .tiles strong, .tiles span { display: block; } .tiles strong { font-size: 1.08rem; } .tiles span { font-size: .88rem; color: #516a73; }
+  .number { font-size: 1.7rem !important; color: #006c66; } .reserved { border-left: 1px solid #becfd3; padding-left: 16px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
+  .notice { margin-top: 16px; padding: 12px 14px; border-left: 3px solid #007e72; background: #ecf7f2; }
+  .notice.error { border-color: #a05c23; background: #fff5e9; } .notice p { margin: 0; }
+  details { border-top: 1px solid #dce5e7; margin-top: 14px; padding-top: 12px; }
+  summary { cursor: pointer; font-size: .9rem; color: #325c63; } details > p { font-size: .94rem; }
+  .more { margin: 16px 2px 0; } label { display: block; font-size: .88rem; margin: 12px 0 4px; }
+  input, select { width: 100%; padding: 9px; border: 1px solid #8fa8ad; border-radius: 6px; color: inherit; background: white; }
+  pre { margin: 8px 0; padding: 12px; background: #f1f5f6; border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; }
+  code { font-family: ui-monospace, monospace; } dl { display: grid; grid-template-columns: 160px 1fr; gap: 8px 14px; font-size: .9rem; }
+  dt { color: #516a73; } dd { margin: 0; overflow-wrap: anywhere; }
+  table { width: 100%; border-collapse: collapse; font-size: .86rem; } th, td { text-align: left; padding: 6px; border-bottom: 1px solid #d7e2e4; }
+  .plot th, .plot td { text-align: center; } .plot { margin: 10px 0; } .empty { min-height: 94px; display: grid; place-items: center; border: 1px dashed #91abb2; border-radius: 6px; text-align: center; padding: 16px; }
+  footer { margin: 18px 2px 0; font-size: .82rem; color: #516a73; }
+  @media (max-width: 600px) { main { padding: 16px 14px 28px; } .card { padding: 18px; } .step-nav { gap: 5px; } .step-nav button { padding: 8px 5px; font-size: .8rem; } .step-nav [aria-selected="true"] { padding: 7px 4px; } .step-nav small { font-size: .7rem; } .tiles.three { gap: 8px; } .reserved { padding-left: 8px; } dl { grid-template-columns: 105px 1fr; } }
 </style>
 <main>
-  <span class="badge">THROWAWAY PROTOTYPE · SIMULATION ONLY</span>
-  <h1>From recordings to a report you can explain</h1>
-  <p><strong>Design question:</strong> Does a guided notebook using the same four commands as the terminal make the agreed analysis easy to run, understand, and repeat?</p>
-  <p><strong>Discussion outcome:</strong> Use this workflow and the current M4 Mac with 16 GB memory for now. Measure resource use during development before final testing. The decision is recorded in <a href="https://github.com/Fijiy/medical-ai/issues/47">Agree on the command and guided-notebook workflow</a>.</p>
-  <p class="muted">This demo checks the order of the work. The proposed Python program and notebook do not exist yet. Buttons change this page only: no recordings are read, no models are trained, no files are saved, and no research scores are invented.</p>
-  <p><small>The scientific procedure is already fixed in <a href="https://github.com/Fijiy/medical-ai/issues/46#issuecomment-5626009616">Choose preprocessing, models, and participant-separated evaluation</a>. EEG records electrical activity; fNIRS uses light to measure blood-related signals. This first analysis predicts recorded task conditions, not depression or a person's actual stress.</small></p>
-
-  <section aria-labelledby="state-title">
-    <h2 id="state-title">Current simulated state</h2>
-    <dl id="state"></dl>
-    <div id="notice" class="notice" role="status" aria-live="polite"></div>
-  </section>
-
-  <section aria-labelledby="try-title">
-    <h2 id="try-title">Try the workflow</h2>
-    <p>In the real notebook, edit the data folder and a new results folder at the top. The agreed analysis settings are loaded for you.</p>
-    <div class="fields">
-      <label>Dataset<select id="dataset"><option value="physionet">PhysioNet task conditions</option><option value="yi">Yi depression groups — unavailable</option></select></label>
-      <label>Data folder<input id="data" spellcheck="false"></label>
-      <label>Demo input condition<select id="source"><option value="ok">Files available (pretend)</option><option value="missing">Folder missing</option><option value="invalid">File changed or required rows missing</option></select></label>
-      <label>Results folder<input id="run" spellcheck="false"></label>
-    </div>
-    <p><small>“Demo input condition” is a simulation control; the actual program must check the files itself. Changing the results folder starts a separate simulated run. Changing inputs never overwrites an existing run.</small></p>
-    <div class="buttons" id="actions"></div>
-    <h3>Proposed command for the last action</h3>
-    <pre id="command"></pre>
-    <p class="muted">These commands are a design preview. They are not runnable analysis commands today.</p>
-  </section>
-
-  <section aria-labelledby="walkthrough-title">
-    <h2 id="walkthrough-title">Guided walkthroughs</h2>
-    <div class="tabs" id="tabs" role="tablist" aria-label="Workflow scenarios"></div>
-    <div id="scenario" role="tabpanel" aria-labelledby="tab-first"></div>
-  </section>
-
-  <div class="grid">
-    <section aria-labelledby="notebook-title">
-      <h2 id="notebook-title">What the notebook will show</h2>
-      <p>A notebook is a document with explanations, small blocks of code, and their outputs. Both interfaces call the same program.</p>
-      <div class="cell"><strong>1 · Setup and paths</strong><p>Open the project environment, then the guide. These filenames belong to the proposed implementation.</p><pre>python -m pip install -r requirements.txt
-python -m jupyterlab notebooks/physionet_walkthrough.ipynb</pre><p>Copy the data and results paths from the fields above. Keep raw recordings in their existing folder; do not copy them into the notebook or results.</p><p><strong>Reading an existing run?</strong> Run this setup cell, then skip directly to step 5. You need the saved result bundle, not the raw recordings.</p><pre id="notebook-code"></pre></div>
-      <div class="cell"><strong>2 · Check the inputs</strong><p>Show the source version, file checks, required channel catalog, and saved participant assignment. Explain any stop and how to correct it.</p><pre>run_step("check", "--data", str(DATA))</pre><button data-action="check">Preview notebook: check</button></div>
-      <div class="cell"><strong>3 · Develop and freeze</strong><p>Prepare the fitting and validation data, choose model settings, refit, complete the implementation checks, and measure resource use. Save the fixed recipe and readiness record before final testing.</p><p><small>Fitting people teach the model; validation people help choose its settings. The reserved final-test people do neither. The main analysis and the agreed near-flat EEG sensitivity analysis are both prepared here. “Sensitivity analysis” means repeating the comparison under the predeclared stricter rule.</small></p><pre>run_step("develop")</pre><button data-action="develop">Preview notebook: develop</button></div>
-      <div class="cell"><strong>4 · Deliberate final test</strong><p>This notebook section displays a terminal command. It contains no executable final-test cell, so <strong>Run All cannot open the final test</strong>. The command requires completed development and the unchanged frozen recipe.</p><pre id="final-command"></pre><p><small>In the demo, use “3 · Final test” above. The real implementation task stops before this stage; the experiment task runs it.</small></p></div>
-      <div class="cell"><strong>5 · Read and verify the saved report</strong><p>If final results are absent, show “Final test pending.” Otherwise rebuild the tables and plots from saved predictions, check the numbers, and display the saved report. No new model training.</p><pre>status = json.loads((PROJECT / RUN / "run.json").read_text())
-if status["final_stage"] in ("complete", "complete_with_unavailable"):
-    run_step("report", "--verify")
-else:
-    print("Final test pending or incomplete. See step 4.")</pre><button data-action="report">Preview notebook: report</button></div>
-      <div class="cell"><strong>6 · Explain and hand off</strong><p>Read the sample counts and exclusions first. Then compare channel counts, inspect uncertainty, and explain limitations. Export the saved plots into slides. Share code and the permitted result bundle; keep raw participant recordings separate.</p></div>
-    </section>
-
-    <section aria-labelledby="output-title">
-      <h2 id="output-title">What appears in the results folder</h2>
-      <p id="output-status"></p>
-      <table><thead><tr><th scope="col">Proposed file or folder</th><th scope="col">Why keep it?</th></tr></thead><tbody>
-        <tr><td><code>run.json</code></td><td>Run status, frozen recipe, dataset fingerprints, code version, dependency versions, checks, measured resource use, fit counts, and any failure.</td></tr>
-        <tr><td><code>manifests/</code></td><td>Participant roles, recording sections, channel layouts, assumed units, and excluded data with reasons.</td></tr>
-        <tr><td><code>features/</code> and <code>models/</code></td><td>Saved measurements, feature order, scaling values, model parameters, all candidate validation scores and chosen settings, and convergence records.</td></tr>
-        <tr><td><code>predictions/</code></td><td>Model decision values, predictions and recorded labels, linked to the person, period, section, layout and analysis.</td></tr>
-        <tr><td><code>uncertainty/</code></td><td>The same saved whole-person resampling draws used for every paired comparison within an analysis.</td></tr>
-        <tr><td><code>tables/</code>, <code>plots/</code>, <code>report.html</code></td><td>Scores, changes from full setup, layout variation, counts, exclusions, PNG plots and their explanations. Primary, sensitivity, and primary predictions on the sensitivity test data remain distinguishable.</td></tr>
+  <header>
+    <div class="topline"><span class="badge">WORKFLOW DEMO · SIMULATION</span><button id="reset">Restart demo</button></div>
+    <h1>How you’ll run the study</h1>
+    <p>A clickable plan for your future notebook and terminal commands. Nothing is analyzed or saved here.</p>
+  </header>
+  <nav id="navigation" class="step-nav" role="tablist" aria-label="Analysis steps"></nav>
+  <section class="card" id="stage" role="tabpanel" aria-labelledby="nav-check">
+    <div id="step-number" class="eyebrow"></div>
+    <h2 id="stage-title"></h2>
+    <p id="stage-description"></p>
+    <div id="visual" class="preview"></div>
+    <details id="folders" hidden><summary>Choose folders</summary>
+      <label for="data">Recordings folder — example path</label><input id="data" spellcheck="false">
+      <label for="run">Separate results folder — example path</label><input id="run" spellcheck="false">
+      <p class="muted">These fields change the demo only.</p>
+    </details>
+    <div class="actions"><button id="run-action" class="primary"></button><button id="next" hidden></button></div>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <details id="explanation"><summary>Why this step?</summary><p id="why"></p></details>
+    <details id="code"><summary>Show the command and notebook example</summary>
+      <p>Design examples only. The analysis program is not built yet.</p>
+      <strong>Terminal</strong><pre id="command"></pre>
+      <strong>Notebook</strong><pre id="notebook"></pre>
+      <details><summary>One-time notebook setup</summary><p>Open the project’s Python environment, install its recorded dependencies, and launch the guide.</p><pre>python -m pip install -r requirements.txt
+python -m jupyterlab notebooks/physionet_walkthrough.ipynb</pre><pre id="notebook-setup"></pre></details>
+    </details>
+    <details id="result-files" hidden><summary>Saved files and repeating the analysis</summary>
+      <p>Every real result must be traceable to the saved recordings, settings and predictions.</p>
+      <table><thead><tr><th>Saved item</th><th>Purpose</th></tr></thead><tbody>
+        <tr><td><code>run.json</code></td><td>Status, frozen settings, source fingerprints, code/dependency versions, checks and measured resource use.</td></tr>
+        <tr><td><code>manifests/</code></td><td>People, sections, channel layouts, assumed units and exclusion reasons.</td></tr>
+        <tr><td><code>features/</code>, <code>models/</code></td><td>Signal measurements, their order, scaling values, model parameters, validation scores, selected settings and convergence records.</td></tr>
+        <tr><td><code>predictions/</code>, <code>uncertainty/</code></td><td>Decision values and labels linked to people/sections/layouts; saved whole-person resampling draws.</td></tr>
+        <tr><td><code>tables/</code>, <code>plots/</code>, <code>report.html</code></td><td>Verified scores, differences, variability, counts, exclusions and explained plots.</td></tr>
       </tbody></table>
-      <div class="plot"><strong>Plot preview · channel-count comparison</strong><p><small>Rows: EEG-channel counts. Columns: optical-group counts. A group keeps its paired signals; it is not a verified physical sensor. Dashes are placeholders, not zero scores.</small></p><table id="heatmap"></table></div>
-      <div class="plot"><strong>Plot preview · change from full setup</strong><p>For each count pair, show its mean score minus the full 32+8 score, in percentage points, with its paired approximate 95% interval. Mark zero change.</p><p class="muted">No values drawn: no experiment has run in this prototype.</p></div>
-      <div class="plot"><strong>Separate panel · variation among channel layouts</strong><p>Show how much scores differ among channel sets at the same counts. This is separate from uncertainty caused by having few test people.</p></div>
-      <p><small>Also show baseline, Stress 1 and Stress 2 scores; mistaken/correct prediction counts; people/section counts; and exclusions. Main scores give each person equal influence and balance the task periods. No “acceptable loss” cutoff, best-layout ranking, or clinical claim.</small></p>
-      <details><summary>Repeat the report or repeat the whole experiment?</summary><p><strong>Report replay:</strong> copy the completed result bundle and rerun <code>report --verify</code> in the recorded environment. Recalculate every reported number from saved predictions and draws; raw recordings are not needed. Missing or changed bundle files stop verification.</p><p><strong>Full reproduction:</strong> use the saved code version, pinned dependencies, authorized recordings with matching fingerprints, identical participant/layout manifests and settings, and a new results folder. Run all four stages and compare outputs using the documented numerical tolerances. A new folder does not erase the fact that these final-test results have already been seen.</p><p>No exact cross-computer identity, runtime, or successful reproduction has been measured by this demo. The implementation must demonstrate these checks.</p></details>
-    </section>
-  </div>
-  <details class="panel"><summary>Current computer target and required resource check</summary><p>The student chose the current Apple M4 Mac with 16 GB memory for now, using local Python and Jupyter. The chosen linear SVM procedure does not require a GPU. This is the target to benchmark, not a measured minimum requirement. Record measured memory, disk use and completed-fit counts during development; leave unknown values unknown.</p><p>The agreed experiment nominally involves 20,724 model fits across the two analyses, before retries. Reuse the existing data folder and deterministic measurements, and process recordings in manageable batches. If a run stops, mark it incomplete and preserve its saved work. Never lower the agreed channel counts or change the participant assignment just to make the machine cope.</p><p>A frozen, unchanged interrupted run may continue from verified completed work. Changed code, settings or inputs require investigation and a separate run record. Preserve any prior final-test exposure in the record.</p></details>
+      <p><strong>Read an existing run:</strong> use the notebook setup and report section. The completed result bundle is enough; raw recordings are not needed. Missing or inconsistent saved files stop verification.</p>
+      <p><strong>Repeat the experiment:</strong> use the saved code, dependencies, authorized recordings with matching fingerprints, settings and participant/channel lists in a new results folder. Re-run all four stages and verify the numbers within documented tolerances. Previously viewed test results remain previously viewed.</p>
+    </details>
+  </section>
+  <details class="more" id="cases"><summary>Try a problem case</summary>
+    <label for="case-select">Choose a walkthrough</label><select id="case-select"></select>
+    <p class="muted">Choosing a case restarts the simulation. Each button performs one action.</p>
+    <div id="case-description"></div>
+    <div class="actions"><button id="case-action"></button><button id="case-reset">Restart this case</button></div>
+    <details><summary>Change the pretend inputs yourself</summary>
+      <label for="dataset">Dataset</label><select id="dataset"><option value="physionet">PhysioNet task conditions</option><option value="yi">Yi — unavailable</option></select>
+      <label for="source">Pretend file condition</label><select id="source"><option value="ok">Files available</option><option value="missing">Folder missing</option><option value="invalid">Changed file or missing rows</option></select>
+      <div class="actions"><button data-action="interrupt">Simulate an interrupted final test</button></div>
+    </details>
+  </details>
+  <details class="more" id="details"><summary>View complete run details</summary><p class="muted">All status below is simulated. No files have been checked or created.</p><dl id="state"></dl><h3>Full message</h3><p id="full-message"></p></details>
+  <details class="more" id="about"><summary>What is this prototype presenting?</summary>
+    <p>It presents the <strong>order of the work</strong>, the actions you will take, the messages you will see, and the structure of the saved report. It lets you try the design before the analysis program is built.</p>
+    <p>The finished tool will be <strong>Python commands and a guided notebook</strong>. A notebook combines explanations, small blocks of runnable code and their outputs. This HTML page is a practice version of that workflow.</p>
+    <p>The study compares prediction performance using fewer recorded EEG channels and optical groups. EEG records electrical activity; fNIRS uses light to measure blood-related signals. PhysioNet predictions concern recorded task conditions, not a person’s depression or actual stress.</p>
+    <p>The current target is the M4 Mac with 16 GB memory. Measure memory, disk use and processing time during development before final testing. The agreed two analyses nominally require 20,724 model fits before retries; none have been run by this demo.</p>
+    <p>The main analysis keeps and flags questionable finite signals. The predeclared sensitivity analysis repeats the comparison after excluding sections containing near-flat EEG. Counts and unavailable analyses must be reported honestly. Yi remains unavailable until its authorized files and procedure are verified.</p>
+    <p>Source decisions: <a href="https://github.com/Fijiy/medical-ai/issues/47#issuecomment-5626240692">Agree on the command and guided-notebook workflow</a> and <a href="https://github.com/Fijiy/medical-ai/issues/46#issuecomment-5626009616">Choose preprocessing, models, and participant-separated evaluation</a>.</p>
+  </details>
+  <footer>Viewing a step does not run it. Only the demo buttons change the simulated state.</footer>
 </main>
 <script>
+
 // Throwaway workflow state only. No scientific computation or file access.
 const Workflow = (() => {
   const defaults = {dataset: 'physionet', data: 'data/physionet/neuro-stress-resilience-hci/1.0.0', run: 'results/physionet-01', source: 'ok'};
@@ -161,9 +166,9 @@ const Workflow = (() => {
   }
   return {initial, step, selfCheck};
 })();
+
 </script>
 <script>
-const labels = {'check': '1 · Check data', 'develop': '2 · Develop', 'final-test': '3 · Final test', 'report': '4 · Rebuild report', 'interrupt': 'Simulate interruption', 'reset': 'Reset demo'};
 const scenarios = {
   first: ['First run', 'Follow the same steps in the notebook or terminal. Only the explicit final-test action opens the reserved test stage.', ['check', 'develop', 'final-test', 'report']],
   early: ['Final test too soon', 'Try final testing before development. See the clear stop, then complete the prerequisite.', ['final-test', 'check', 'final-test', 'develop', 'final-test']],
@@ -175,78 +180,125 @@ const scenarios = {
   again: ['Rerun and handoff', 'Completed final results stay fixed. The saved report can be rebuilt even when the original raw-data folder is unavailable.', ['check', 'develop', 'final-test', 'final-test', 'develop', 'remove', 'report']]
 };
 const specialLabels = {restore: 'Restore original folder', corrupt: 'Simulate changed file', physionet: 'Choose PhysioNet', change: 'Change frozen input path', remove: 'Disconnect raw-data folder'};
-let state = Workflow.initial(), scenario = 'first', nextStep = 0;
+
+const stages = [
+  {id:'check', label:'Check files', title:'Check your recording files', description:'Start with the recordings and a separate place to save results.', action:'Simulate file check', why:'Catch missing or changed files before training. The real program checks the source version, required channels and saved participant assignment. It never guesses labels or silently replaces data.'},
+  {id:'develop', label:'Develop', title:'Build and check the model', description:'Learn from the development participants, then save the chosen settings.', action:'Simulate development', why:'Fitting people teach the model patterns; validation people help choose its settings. The reserved test people do neither. Both declared analyses must finish their development checks and resource measurements before settings are frozen, meaning fixed for the final test.'},
+  {id:'final-test', label:'Final test', title:'Test with the reserved people', description:'Use the saved model on people left out of its development.', action:'Simulate final test', why:'This is a deliberate terminal command in the finished workflow. The notebook’s Run All will not start it. Development and resource checks must pass first. Evaluate both predeclared analyses with unchanged settings; do not improve the model using final-test scores.'},
+  {id:'report', label:'Report', title:'Read and explain the results', description:'Compare channel counts and rebuild the report from saved predictions.', action:'Simulate report', why:'Read the included people, recording sections and exclusions before interpreting scores. Report the main analysis, the stricter near-flat sensitivity analysis, and the main predictions on the sensitivity test data. A report replay does not retrain the model.'}
+];
+const labels = {'check':'Check files', 'develop':'Develop', 'final-test':'Final test', 'report':'Read report', 'interrupt':'Interrupt final test'};
+let state = Workflow.initial(), scenario = 'first', nextStep = 0, view = 0, plot = 'scores';
 const $ = id => document.getElementById(id);
-const escape = x => String(x).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const escape = x => String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const completed = () => [state.checked, state.frozen, ['saved','limited'].includes(state.final), state.reported];
 function command(action) {
-  if (!['check', 'develop', 'final-test', 'report'].includes(action)) return 'Simulation control only — no terminal command executed.';
-  if (state.dataset === 'yi') return 'Yi is unavailable. There is no supported Yi analysis command or notebook to offer yet.';
+  if (state.dataset === 'yi') return 'Yi is unavailable. No supported Yi analysis command exists yet.';
   return `python scripts/physionet_analysis.py ${action}${action === 'check' ? ` --data ${JSON.stringify(state.data)}` : ''} --run ${JSON.stringify(state.run)}${action === 'report' ? ' --verify' : ''}`;
 }
-function act(action) {
-  if (action === 'restore') state = {...state, data: Workflow.initial().data, source: 'ok', message: 'Simulation: original source folder restored.', error: false};
-  else if (action === 'corrupt') state = {...state, source: 'invalid', message: 'Simulation: source file changed. Check again.', error: false};
-  else if (action === 'physionet') state = {...state, dataset: 'physionet', message: 'Simulation: PhysioNet selected.', error: false};
-  else if (action === 'change') state = {...state, data: 'data/different-release', message: 'Simulation: input path changed; the saved recipe still points to the original source.', error: false};
-  else if (action === 'remove') state = {...state, source: 'missing', message: 'Simulation: raw recordings disconnected. A completed saved report needs only the result bundle.', error: false};
-  else state = Workflow.step(state, action);
-  if (action === 'reset') { scenario = 'first'; nextStep = 0; }
+function shortMessage() {
+  const messages = {
+    'SIMULATED CHECK':'Demo: the files match. You can move to development.',
+    'SIMULATED DEVELOPMENT':'Demo: development is finished and the settings are fixed. The final test is ready.',
+    'DEVELOPMENT_COMPLETE':'Demo: existing development results are reused. Nothing is trained again.',
+    'SIMULATED FINAL STAGE': state.final === 'limited' ? 'Demo: main results are saved. The stricter analysis is unavailable; its reason stays in the report.' : 'Demo: final outputs are saved. You can now build the report.',
+    'SIMULATED REPORT REPLAY':'Demo: the saved report is rebuilt. No real scores were calculated.',
+    'DATA_NOT_FOUND':'The folder is missing. Choose the extracted recordings folder and check again.',
+    'INPUT_MISMATCH':'A file changed or required rows are missing. Restore the expected file before continuing.',
+    'CHECK_REQUIRED':'Check the files first. No development or final testing started.',
+    'DEVELOPMENT_REQUIRED':'Finish development and its checks before the final test.',
+    'FINAL_RESULTS_MISSING':'The final test is pending or incomplete. There is no complete report yet.',
+    'YI_UNAVAILABLE':'Yi cannot run yet. Authorized files and its analysis procedure still need verification.',
+    'RUN_INPUTS_CHANGED':'These inputs differ from the saved run. Restore them or use a separate results folder.',
+    'PATH_REQUIRED':'Enter both a recordings folder and a separate results folder.',
+    'OUTPUT_IS_DATA':'Use a different folder for results so recordings cannot be overwritten.',
+    'FROZEN_AFTER_FINAL_TEST':'Development cannot restart in a run whose final test has already begun.',
+    'SIMULATED INTERRUPTION':'Demo: the final test stopped partway. Run the same frozen test again to continue.',
+    'ALREADY_COMPLETE':'Demo: this final test is already complete. Read its saved report.'
+  };
+  return messages[state.message.split(' — ')[0]] || state.message;
+}
+function setView(index) {
+  view = index;
+  for (const id of ['folders','explanation','code','result-files']) $(id).open = false;
   render();
+}
+function act(action) {
+  if (action === 'restore') state = {...state, data: Workflow.initial().data, source:'ok', message:'Original example folder restored.', error:false};
+  else if (action === 'corrupt') state = {...state, source:'invalid', message:'Demo file changed. Try the check again.', error:false};
+  else if (action === 'physionet') state = {...state, dataset:'physionet', message:'PhysioNet selected. Try the check again.', error:false};
+  else if (action === 'change') state = {...state, data:'data/different-release', message:'Input path changed. The saved run still uses the original source.', error:false};
+  else if (action === 'remove') state = {...state, source:'missing', message:'Raw-data folder disconnected. A saved report can still be read.', error:false};
+  else state = Workflow.step(state, action);
+  const stageIndex = stages.findIndex(s=>s.id===action);
+  setView(stageIndex >= 0 ? stageIndex : action === 'interrupt' ? 2 : 0);
 }
 function start(id) {
-  scenario = id; nextStep = 0; state = Workflow.initial();
-  if (id === 'missing') state.source = 'missing';
-  if (id === 'yi') state.dataset = 'yi';
-  if (id === 'limited') state.limited = true;
-  state.message = 'Walkthrough reset to its starting state. Press the numbered steps below.';
-  render();
+  scenario = id; nextStep = 0; plot = 'scores'; state = Workflow.initial();
+  if (id === 'missing') state.source='missing';
+  if (id === 'yi') state.dataset='yi';
+  if (id === 'limited') state.limited=true;
+  setView(stages.findIndex(s=>s.id===scenarios[id][2][0]));
+}
+function plotPreview() {
+  const choices = [['scores','Average performance'],['change','Change from full setup'],['layouts','Variation across layouts']];
+  let content;
+  if (plot === 'scores') content = '<table class="plot"><caption>Example layout · scores not calculated</caption><thead><tr><th>EEG / optical counts</th>'+[8,6,4,2].map(n=>`<th>${n}</th>`).join('')+'</tr></thead><tbody>'+[32,16,8,4,2].map(n=>`<tr><th scope="row">${n}</th>${[8,6,4,2].map(m=>`<td>${n===32&&m===8?'Full · —':'—'}</td>`).join('')}</tr>`).join('')+'</tbody></table><small>Each cell will show a mean score. Dashes mean “not calculated.”</small>';
+  else if (plot === 'change') content = '<div class="empty">Reduced score − full score<br>No results calculated</div><small>The real plot will show changes in percentage points and approximate intervals for uncertainty from the limited number of test people.</small>';
+  else content = '<div class="empty">Different layouts · same channel counts<br>No results calculated</div><small>The real plot will show how much scores vary among channel sets. This is separate from uncertainty due to the number of people.</small>';
+  return '<label for="plot">Choose one report view</label><select id="plot">'+choices.map(([id,name])=>`<option value="${id}" ${plot===id?'selected':''}>${name}</option>`).join('')+'</select>'+content;
 }
 function render() {
-  for (const key of ['dataset', 'data', 'run', 'source']) $(key).value = state[key];
-  const fields = {
-    'Dataset': state.dataset === 'yi' ? 'Yi · unsupported' : 'PhysioNet · recorded task conditions',
-    'Current data path': state.data, 'Results folder': state.run,
-    'Saved input path': state.saved?.data || 'None yet',
-    'Input condition': state.source, 'Saved input check': state.checked ? 'Original inputs passed in simulation; each action rechecks for changes' : 'Not checked',
-    'Development': state.frozen ? 'Simulated complete · recipe frozen' : 'Pending',
-    'Final stage': ({locked:'Not opened', interrupted:'Interrupted · incomplete', saved:'Both analyses saved in simulation', limited:'Main saved · sensitivity unavailable in simulation'})[state.final],
-    'Final-test exposure': state.exposed ? 'Recorded in simulation · cannot be undone by retuning' : 'No simulated final-test access',
-    'Prior run exposure': state.previousExposure ? 'Already seen · this new run is reproduction or exploratory work' : 'None in this demo session',
-    'Report': state.reported ? 'Replay simulated · no scientific scores generated' : 'Not replayed',
-    'Scenario limitation': state.limited ? 'Sensitivity has no eligible test people (pretend)' : 'No additional simulated limitation'
-  };
-  $('state').innerHTML = Object.entries(fields).map(([k,v]) => `<dt>${escape(k)}</dt><dd>${escape(v)}</dd>`).join('');
-  $('notice').textContent = state.message; $('notice').className = 'notice' + (state.error ? ' error' : '');
-  $('command').textContent = state.action ? command(state.action) : 'Choose an action to preview its proposed command.';
-  $('final-command').textContent = command('final-test');
-  $('notebook-code').textContent = `# Proposed notebook code; the analysis script is not implemented yet.\nfrom pathlib import Path\nimport json, subprocess, sys\n\nPROJECT = Path.cwd()\nif PROJECT.name == "notebooks":\n    PROJECT = PROJECT.parent\nDATA = Path(${JSON.stringify(state.data)})\nRUN = Path(${JSON.stringify(state.run)})\n\ndef run_step(stage, *args):\n    subprocess.run([sys.executable, "scripts/physionet_analysis.py",\n                    stage, "--run", str(RUN), *args],\n                   cwd=PROJECT, check=True)`;
-  $('output-status').textContent = state.reported ? 'SIMULATION: the completed bundle is being read. The files below are proposed, not created by this page.' : ['saved','limited'].includes(state.final) ? 'SIMULATION: the final stage is recorded. Rebuild the report to read available results and any unavailable-analysis reasons.' : state.frozen ? 'SIMULATION: development records would now exist. Final outputs remain incomplete until the explicit final stage finishes.' : 'Proposed bundle only. No output files exist because of this demo.';
-  $('tabs').innerHTML = Object.entries(scenarios).map(([id, [title]]) => `<button role="tab" id="tab-${id}" aria-controls="scenario" aria-selected="${id===scenario}" tabindex="${id===scenario?0:-1}" data-scenario="${id}">${escape(title)}</button>`).join('');
-  const [title, description, steps] = scenarios[scenario];
-  $('scenario').setAttribute('aria-labelledby', 'tab-' + scenario);
-  $('scenario').innerHTML = `<strong>${escape(title)}</strong><p>${escape(description)}</p><button data-restart>Restart walkthrough</button><div class="steps">${steps.map((action, i) => `<button data-step="${i}" ${i === nextStep ? '' : 'disabled'}>${i+1}. ${escape(specialLabels[action] || labels[action].replace(/^\d · /, ''))}${i < nextStep ? ' ✓' : ''}</button>`).join('')}</div>${nextStep === steps.length ? '<p>Walkthrough complete. Try another tab or use the free-play buttons.</p>' : ''}`;
+  const current=stages[view], done=completed();
+  $('navigation').innerHTML=stages.map((s,i)=>`<button id="nav-${s.id}" role="tab" aria-controls="stage" aria-selected="${i===view}" tabindex="${i===view?0:-1}" data-view="${i}"><strong>${i+1}. ${s.label}</strong><small>${done[i]?'Done in demo':s.id==='final-test'&&state.final==='interrupted'?'Interrupted':'Not done'}</small></button>`).join('');
+  $('stage').setAttribute('aria-labelledby','nav-'+current.id);
+  $('step-number').textContent=`STEP ${view+1} OF 4`;
+  $('stage-title').textContent=current.title;
+  $('stage-description').textContent=current.description;
+  $('why').textContent=current.why;
+  const previews = [
+    `<div class="tiles"><div><span>Input</span><strong>${state.dataset==='yi'?'Yi · unavailable':'PhysioNet recordings'}</strong></div><div><span>Output</span><strong>A separate results folder</strong></div></div>`,
+    '<div class="tiles three"><div><strong class="number">20</strong><span>people for fitting</span></div><div><strong class="number">6</strong><span>for validation</span></div><div class="reserved"><strong class="number">7</strong><span>reserved for testing</span></div></div><small>Agreed initial split; actual retained counts still need verification.</small>',
+    '<div class="tiles"><div><span>Input</span><strong>Saved settings + reserved data</strong></div><div><span>Output</span><strong>Saved predictions</strong></div></div><p><small>The real notebook displays this command; Run All does not execute it.</small></p>',
+    plotPreview()
+  ];
+  $('visual').innerHTML=previews[view];
+  $('folders').hidden=view!==0;
+  $('result-files').hidden=view!==3;
+  for(const key of ['data','run','dataset','source']) $(key).value=state[key];
+  $('run-action').textContent=current.action;
+  $('next').hidden=view===3 || !done[view];
+  $('next').textContent=view<3?`Next: ${stages[view+1].label}`:'';
+  $('notice').hidden=!state.action && !state.error;
+  $('notice').className='notice'+(state.error?' error':'');
+  $('notice').textContent=shortMessage();
+  $('command').textContent=command(current.id);
+  const cells={check:'run_step("check", "--data", str(DATA))',develop:'run_step("develop")  # reuse verified records when already complete', 'final-test':'Explanation only — no executable final-test cell.\nRun the displayed terminal command deliberately.', report:'status = json.loads((PROJECT / RUN / "run.json").read_text())\nif status["final_stage"] in ("complete", "complete_with_unavailable"):\n    run_step("report", "--verify")\nelse:\n    print("Final test pending or incomplete.")'};
+  $('notebook').textContent=state.dataset==='yi'?'A verified Yi notebook is not available yet.':cells[current.id];
+  $('notebook-setup').textContent=`from pathlib import Path\nimport json, subprocess, sys\n\nPROJECT = Path.cwd()\nif PROJECT.name == "notebooks":\n    PROJECT = PROJECT.parent\nDATA = Path(${JSON.stringify(state.data)})\nRUN = Path(${JSON.stringify(state.run)})\n\ndef run_step(stage, *args):\n    subprocess.run([sys.executable, "scripts/physionet_analysis.py",\n                    stage, "--run", str(RUN), *args],\n                   cwd=PROJECT, check=True)`;
+  const [title,description,steps]=scenarios[scenario];
+  $('case-select').value=scenario;
+  $('case-description').textContent=description;
+  $('case-action').disabled=nextStep>=steps.length;
+  $('case-action').textContent=nextStep<steps.length?`${nextStep+1}/${steps.length} · ${specialLabels[steps[nextStep]]||labels[steps[nextStep]]}`:'Case complete';
+  const fields={'Screen':current.label,'Dataset':state.dataset,'Data folder':state.data,'Results folder':state.run,'Saved input':state.saved?.data||'None','Pretend file condition':state.source,'Original inputs checked':state.checked?'Yes':'No','Development fixed':state.frozen?'Yes':'No','Final stage':state.final,'Final test accessed':state.exposed?'Yes':'No','Earlier run accessed test':state.previousExposure?'Yes':'No','Report replayed':state.reported?'Yes':'No','Sensitivity unavailable':state.limited?'Simulated in this case':'Not simulated'};
+  $('state').innerHTML=Object.entries(fields).map(([k,v])=>`<dt>${escape(k)}</dt><dd>${escape(v)}</dd>`).join('');
+  $('full-message').textContent=state.message;
 }
-$('actions').innerHTML = Object.entries(labels).map(([action,label]) => `<button data-action="${action}"${action === 'check' ? ' class="primary"' : ''}>${label}</button>`).join('');
-$('heatmap').innerHTML = '<caption>Task-balanced correctness · no scores computed</caption><thead><tr><th scope="col">EEG / optical</th>' + [8,6,4,2].map(n=>`<th scope="col">${n}</th>`).join('') + '</tr></thead><tbody>' + [32,16,8,4,2].map(n=>`<tr><th scope="row">${n}</th>${[8,6,4,2].map(m=>`<td>${n===32&&m===8?'Full · —':'—'}</td>`).join('')}</tr>`).join('') + '</tbody>';
-document.addEventListener('click', event => {
-  const b = event.target.closest('button'); if (!b) return;
-  if (b.dataset.action) act(b.dataset.action);
-  else if (b.dataset.scenario) { start(b.dataset.scenario); $('tab-' + scenario).focus(); }
-  else if (b.hasAttribute('data-restart')) start(scenario);
-  else if (b.dataset.step !== undefined) { const action = scenarios[scenario][2][nextStep]; nextStep++; act(action); }
-});
-$('tabs').addEventListener('keydown', event => {
-  if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
-  event.preventDefault(); const ids = Object.keys(scenarios), i = ids.indexOf(scenario);
-  const next = event.key === 'Home' ? 0 : event.key === 'End' ? ids.length-1 : (i + (event.key === 'ArrowRight' ? 1 : -1) + ids.length) % ids.length;
-  start(ids[next]); $('tab-' + scenario).focus();
-});
-for (const key of ['dataset','data','run','source']) $(key).addEventListener('change', event => {
-  const value = event.target.value;
-  state = key === 'run' && value !== state.run ? {...Workflow.initial(), dataset: state.dataset, data: state.data, source: state.source, run: value, previousExposure: state.exposed || state.previousExposure, message: 'New simulated results folder. Existing run is preserved; any prior final-test exposure still counts.'} : {...state, [key]: value, message: 'Input changed. The next action checks it against any saved inputs.', error: false};
-  render();
-});
+$('case-select').innerHTML=Object.entries(scenarios).map(([id,[name]])=>`<option value="${id}">${name}</option>`).join('');
+$('reset').addEventListener('click',()=>{for(const d of document.querySelectorAll('details'))d.open=false;start('first');});
+$('run-action').addEventListener('click',()=>act(stages[view].id));
+$('next').addEventListener('click',()=>{setView(view+1);$('run-action').focus();});
+$('case-select').addEventListener('change',e=>start(e.target.value));
+$('case-reset').addEventListener('click',()=>start(scenario));
+$('case-action').addEventListener('click',()=>{const action=scenarios[scenario][2][nextStep++];act(action);});
+$('navigation').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b){setView(Number(b.dataset.view));$('nav-'+stages[view].id).focus();}});
+$('navigation').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const i=e.key==='Home'?0:e.key==='End'?3:(view+(e.key==='ArrowRight'?1:-1)+4)%4;setView(i);$('nav-'+stages[i].id).focus();});
+$('visual').addEventListener('change',e=>{if(e.target.id==='plot'){plot=e.target.value;render();$('plot').focus();}});
+$('cases').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(b)act(b.dataset.action);});
+for(const key of ['dataset','data','run','source']) $(key).addEventListener('change',e=>{const value=e.target.value;state=key==='run'&&value!==state.run?{...Workflow.initial(),dataset:state.dataset,data:state.data,source:state.source,run:value,previousExposure:state.exposed||state.previousExposure,message:'New demo run. Earlier final-test exposure still counts.'}:{...state,[key]:value,action:'',message:'Input changed. The next action checks it against saved inputs.',error:false};render();});
 Workflow.selfCheck();
 render();
+
 </script>
 </html>
