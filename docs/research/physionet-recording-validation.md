@@ -4,7 +4,7 @@ Evidence for [Validate PhysioNet channel mapping, signal units, and recording co
 
 ## Result
 
-**The full recording inventory is complete. Physical channel mapping and units remain partly unresolved, so the Wayfinder ticket remains open.** All 35 released paired CSVs were downloaded, scanned in full, and matched to their published SHA-256 checksums. A checksum verifies that the downloaded bytes match the published file; it does not prove that the original experiment was complete or scientifically well calibrated.
+**The full recording inventory and bounded investigation are complete. The Wayfinder ticket is closed with accepted working assumptions, not as successful full physical validation.** The [resolution](https://github.com/Fijiy/medical-ai/issues/49#issuecomment-5623550192) carries remaining mapping and protocol questions into the existing sensor-configuration and preprocessing decisions. Earlier open-status statements in the investigation history below are superseded by that resolution. All 35 released paired CSVs were downloaded, scanned in full, and matched to their published SHA-256 checksums. A checksum verifies that the downloaded bytes match the published file; it does not prove that the original experiment was complete or scientifically well calibrated.
 
 The files themselves resolved two important questions: there are two actual row layouts, and the optical streams have a consistent numerical pairing. They also exposed an undocumented extra marker in p11. No authors were contacted.
 

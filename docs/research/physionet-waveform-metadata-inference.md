@@ -72,7 +72,7 @@ These examples explain why “no completely constant rows” was insufficient to
 
 The numbered EEG order and optical conversion order are now evidence-backed **working hypotheses**, with the limits above. Analyses that use anonymous rows and relative variation can avoid requiring an absolute voltage or concentration scale, provided their later preprocessing and evaluation choices respect participant separation. Named optical-location comparisons and calibrated amplitude thresholds still require an explicit assumption or stronger evidence; the data checks do not turn those into established facts.
 
-The original GitHub issue remains open because its full physical-mapping and unit requirements are not met. The data investigation and diagnostic checks are complete. An independent review reproduced the headline figures and tested the diagnostic pipeline with known synthetic signals; no actionable correctness or provenance defect was found. No outreach is needed to preserve or use these findings within their stated limits.
+The original GitHub investigation is [closed with declared working assumptions](https://github.com/Fijiy/medical-ai/issues/49#issuecomment-5623550192); full physical mapping and unit verification were not achieved. Remaining comparison and protocol questions belong to the existing sensor-configuration and preprocessing decisions. The data investigation and diagnostic checks are complete. An independent review reproduced the headline figures and tested the diagnostic pipeline with known synthetic signals; no actionable correctness or provenance defect was found. No outreach is needed to preserve or use these findings within their stated limits.
 
 ## September 10: paper-supported working assumptions
 
@@ -93,7 +93,7 @@ The paper check also rules out two tempting shortcuts. Roy and Nuamah's [2025 st
 
 A newer [Arduino prototype paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC13259060/) cites this exact release's p01 directory and reports band power in µV². It is weak additional precedent for the EEG convention, since it provides no reproducible import scaling or selected CSV row. Its prototype electrode placements are not this dataset's electrode map. See the [bounded paper inspection](physionet-manufacturer-output-followup.md#september-10-follow-up-downstream-arduino-paper).
 
-This permits clearly labeled exploratory EEG interpretation without email. It does not resolve optical source–detector wiring, establish anatomical conclusions, or certify absolute physiological amplitudes. The original validation ticket remains open under its full requirements.
+This permits clearly labeled exploratory EEG interpretation without email. It does not resolve optical source–detector wiring, establish anatomical conclusions, or certify absolute physiological amplitudes. The original ticket's closure records this limited investigation outcome; it does not certify its initially sought full physical-validation outcome.
 
 ### Optical unit decision following the user's further request
 
